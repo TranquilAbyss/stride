@@ -110,11 +110,19 @@ namespace Stride.UI.Panels
 
                 // compute the child offsets wrt parent (left,top,front) corner
                 var pinOrigin = child.DependencyProperties.Get(PinOriginPropertyKey);
-                var childOrigin = ComputeAbsolutePinPosition(child, ref finalSizeWithoutMargins) - Vector3.Modulate(pinOrigin, child.RenderSize);
+                var childOrigin = ComputeAbsolutePinPosition(child, ref finalSizeWithoutMargins);
+                // to avoid NaN from infinity times zero
+                if (float.IsInfinity(child.RenderSize.X) && pinOrigin.X == 0)
+                    childOrigin -= new Vector3(0, pinOrigin.Y * RenderSize.Y, pinOrigin.Z * RenderSize.Z);
+                else if (float.IsInfinity(child.RenderSize.Y) && pinOrigin.Y == 0)
+                    childOrigin -= new Vector3(pinOrigin.X * RenderSize.X, 0, pinOrigin.Z * RenderSize.Z);
+                else if (float.IsInfinity(child.RenderSize.Z) && pinOrigin.Z == 0)
+                    childOrigin -= new Vector3(pinOrigin.X * RenderSize.X, pinOrigin.Y * RenderSize.Y, 0);
+                else
+                    childOrigin -= Vector3.Modulate(pinOrigin, child.RenderSize);
 
                 // compute the child offsets wrt parent origin (0,0,0). 
                 var childOriginParentCenter = childOrigin - finalSizeWithoutMargins / 2;
-
                 // set the panel arrange matrix for the child
                 child.DependencyProperties.Set(PanelArrangeMatrixPropertyKey, Matrix.Translation(childOriginParentCenter));
 

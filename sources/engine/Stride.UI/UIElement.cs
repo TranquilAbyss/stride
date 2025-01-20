@@ -1292,10 +1292,12 @@ namespace Stride.UI
             {
                 case HorizontalAlignment.Center:
                 case HorizontalAlignment.Stretch:
-                    offsets.X += (providedSpace.X - usedSpaceWithThickness.X) / 2;
+                    offsets.X += float.IsInfinity(providedSpace.X) && float.IsInfinity(usedSpaceWithThickness.X) ?
+                        0 : (providedSpace.X - usedSpaceWithThickness.X) / 2;
                     break;
                 case HorizontalAlignment.Right:
-                    offsets.X += providedSpace.X - usedSpaceWithThickness.X;
+                    offsets.X += float.IsInfinity(providedSpace.X) && float.IsInfinity(usedSpaceWithThickness.X) ?
+                        0 : providedSpace.X - usedSpaceWithThickness.X;
                     break;
             }
 
@@ -1304,10 +1306,12 @@ namespace Stride.UI
             {
                 case VerticalAlignment.Center:
                 case VerticalAlignment.Stretch:
-                    offsets.Y += (providedSpace.Y - usedSpaceWithThickness.Y) / 2;
+                    offsets.Y += float.IsInfinity(providedSpace.Y) && float.IsInfinity(usedSpaceWithThickness.Y) ?
+                        0 : (providedSpace.Y - usedSpaceWithThickness.Y) / 2;
                     break;
                 case VerticalAlignment.Bottom:
-                    offsets.Y += providedSpace.Y - usedSpaceWithThickness.Y;
+                    offsets.Y += float.IsInfinity(providedSpace.Y) && float.IsInfinity(usedSpaceWithThickness.Y) ?
+                       0 : providedSpace.Y - usedSpaceWithThickness.Y;
                     break;
             }
 
@@ -1316,10 +1320,12 @@ namespace Stride.UI
             {
                 case DepthAlignment.Center:
                 case DepthAlignment.Stretch:
-                    offsets.Z += (providedSpace.Z - usedSpaceWithThickness.Z) / 2;
+                    offsets.Z += float.IsInfinity(providedSpace.Z) && float.IsInfinity(usedSpaceWithThickness.Z) ?
+                       0 : (providedSpace.Z - usedSpaceWithThickness.Z) / 2;
                     break;
                 case DepthAlignment.Back:
-                    offsets.Z += providedSpace.Z - usedSpaceWithThickness.Z;
+                    offsets.Z += float.IsInfinity(providedSpace.Z) && float.IsInfinity(usedSpaceWithThickness.Z) ?
+                       0 : providedSpace.Z - usedSpaceWithThickness.Z;
                     break;
             }
 
